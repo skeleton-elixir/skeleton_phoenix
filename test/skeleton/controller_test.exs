@@ -1,4 +1,4 @@
-defmodule Skeleton.ControllerTest do
+defmodule Skeleton.Phoenix.ControllerTest do
   use Skeleton.App.TestCase
   import Plug.Conn
   alias Plug.Conn

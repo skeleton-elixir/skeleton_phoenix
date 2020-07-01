@@ -1,10 +1,10 @@
-defmodule Skeleton.Controller do
+defmodule Skeleton.Phoenix.Controller do
   import Plug.Conn
   alias Skeleton.Phoenix.Config, as: CtrlConfig
   alias Skeleton.Permission.Config, as: PermConfig
 
   defmacro __using__(_) do
-    alias Skeleton.Controller, as: Ctrl
+    alias Skeleton.Phoenix.Controller, as: Ctrl
 
     quote do
       # Ensure authenticated
