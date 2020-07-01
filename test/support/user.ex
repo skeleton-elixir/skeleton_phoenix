@@ -1,5 +1,5 @@
-defmodule Skeleton.Phoenix.User do
-  use Skeleton.Phoenix.App, :schema
+defmodule Skeleton.App.User do
+  use Skeleton.App, :schema
 
   schema "users" do
     field :name, :string

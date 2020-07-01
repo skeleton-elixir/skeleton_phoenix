@@ -1,23 +1,13 @@
-defmodule Skeleton.Phoenix.TestCase do
+defmodule Skeleton.App.TestCase do
   use ExUnit.CaseTemplate
 
-  using opts do
-    quote do
-      use ExUnit.Case, unquote(opts)
-      # import Ecto.Query
-      # import Ecto.Changeset
-      # alias Ecto.Adapters.SQL
-      alias Skeleton.Phoenix.{User}
-    end
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Skeleton.App.Repo)
+    Ecto.Adapters.SQL.Sandbox.mode(Skeleton.App.Repo, {:shared, self()})
   end
-
-  # setup do
-  #   :ok = Ecto.Adapters.SQL.Sandbox.checkout(Skeleton.Service.Repo)
-  #   Ecto.Adapters.SQL.Sandbox.mode(Skeleton.Service.Repo, {:shared, self()})
-  # end
 end
 
-# Skeleton.Service.Repo.start_link()
-# Ecto.Adapters.SQL.Sandbox.mode(Skeleton.Service.Repo, :manual)
+Skeleton.App.Repo.start_link()
+Ecto.Adapters.SQL.Sandbox.mode(Skeleton.App.Repo, :manual)
 
 ExUnit.start()

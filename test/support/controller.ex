@@ -1,9 +1,9 @@
-defmodule Skeleton.Phoenix.Controller do
+defmodule Skeleton.App.Controller do
   defmacro __using__(_) do
     quote do
       use Skeleton.Controller
       import Ecto.Query
-      alias Skeleton.Phoenix.Repo
+      alias Skeleton.Repo
     end
   end
 

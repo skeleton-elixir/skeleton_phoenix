@@ -1,5 +1,5 @@
-defmodule Skeleton.Phoenix.UserPermission do
-  use Skeleton.Phoenix.Permission
+defmodule Skeleton.App.UserPermission do
+  use Skeleton.App.Permission
 
   def check(:can_update, context) do
     context.current_user && context.current_user.id == context.resource.id

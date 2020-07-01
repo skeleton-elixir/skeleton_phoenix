@@ -1,6 +1,6 @@
-defmodule Skeleton.Phoenix.UserController do
-  use Skeleton.Phoenix.Controller
-  alias Skeleton.Phoenix.UserPermission
+defmodule Skeleton.App.UserController do
+  use Skeleton.App.Controller
+  alias Skeleton.App.UserPermission
 
   def update(conn) do
     conn
