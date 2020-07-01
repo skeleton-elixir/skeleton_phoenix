@@ -13,9 +13,7 @@ defmodule Skeleton.App.UserPermission do
     end
   end
 
-  # def preload(_permission_name, _context, params) do
-  #   Skeleton.Phoenix.User
-  #   |> where([u], u.id == ^params[:id])
-  #   |> Repo.all()
-  # end
+  def preload(_context, _permissions, users) do
+    users
+  end
 end

@@ -17,10 +17,12 @@ defmodule Skeleton.Phoenix.ControllerTest do
     end
 
     test "when is authenticated", context do
+      user = %User{id: 1}
+
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123})
-        |> assign(:resource, %User{id: 123})
+        |> put_private(:current_user, user)
+        |> assign(:resource, user)
         |> UserController.update()
 
       refute conn.halted
@@ -36,10 +38,12 @@ defmodule Skeleton.Phoenix.ControllerTest do
     end
 
     test "when is authenticated", context do
+      user = %User{id: 1}
+
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123})
-        |> assign(:resource, %User{id: 123})
+        |> put_private(:current_user, user)
+        |> assign(:resource, user)
         |> UserController.unauthenticated_update()
 
       assert conn.halted
@@ -49,10 +53,11 @@ defmodule Skeleton.Phoenix.ControllerTest do
 
   describe "check permisssion" do
     test "when is permitted", context do
+      user = %User{id: 1}
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123})
-        |> assign(:resource, %User{id: 123})
+        |> put_private(:current_user, user)
+        |> assign(:resource, user)
         |> UserController.update()
 
       refute conn.halted
@@ -60,10 +65,13 @@ defmodule Skeleton.Phoenix.ControllerTest do
     end
 
     test "when isn't permitted", context do
+      user1 = %User{id: 1}
+      user2 = %User{id: 2}
+
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123})
-        |> assign(:resource, %User{id: 321})
+        |> put_private(:current_user, user1)
+        |> assign(:resource, user2)
         |> UserController.update()
 
       assert conn.halted
@@ -81,10 +89,13 @@ defmodule Skeleton.Phoenix.ControllerTest do
     end
 
     test "when is permitted", context do
+      user1 = %User{id: 1, admin: true}
+      user2 = %User{id: 1}
+
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123, admin: true})
-        |> assign(:resource, %User{id: 123})
+        |> put_private(:current_user, user1)
+        |> assign(:resource, user2)
         |> UserController.update()
 
       refute conn.halted
@@ -95,10 +106,12 @@ defmodule Skeleton.Phoenix.ControllerTest do
     end
 
     test "when isn't permitted", context do
+      user = %User{id: 1}
+
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123})
-        |> assign(:resource, %User{id: 123})
+        |> put_private(:current_user, user)
+        |> assign(:resource, user)
         |> UserController.update()
 
       refute conn.halted
@@ -111,10 +124,12 @@ defmodule Skeleton.Phoenix.ControllerTest do
 
   describe "resoving controller" do
     test "when it's valid", context do
+      user = %User{id: 1}
+
       conn =
         context.conn
-        |> put_private(:current_user, %User{id: 123})
-        |> assign(:resource, %User{id: 123})
+        |> put_private(:current_user, user)
+        |> assign(:resource, user)
         |> UserController.update()
 
       refute conn.halted
