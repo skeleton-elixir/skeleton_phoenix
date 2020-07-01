@@ -3,7 +3,7 @@ defmodule Skeleton.App.Permission do
     quote do
       use Skeleton.Permission
       import Ecto.Query
-      alias Skeleton.Phoenix.Repo
+      alias Skeleton.App.Repo
     end
   end
 
