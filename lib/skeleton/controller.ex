@@ -3,6 +3,11 @@ defmodule Skeleton.Phoenix.Controller do
   alias Skeleton.Phoenix.Config, as: CtrlConfig
   alias Skeleton.Permission.Config, as: PermConfig
 
+  # Callbacks
+
+  @callback is_authenticated(Plug.Conn.t) :: Boolean.t
+  @callback is_not_authenticated(Plug.Conn.t) :: Boolean.t
+
   defmacro __using__(_) do
     alias Skeleton.Phoenix.Controller, as: Ctrl
 

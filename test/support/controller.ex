@@ -1,4 +1,6 @@
 defmodule Skeleton.App.Controller do
+  @behaviour Skeleton.Phoenix.Controller
+
   defmacro __using__(_) do
     quote do
       use Skeleton.Phoenix.Controller
