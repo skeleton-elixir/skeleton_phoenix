@@ -5,8 +5,8 @@ defmodule Skeleton.Phoenix.Controller do
 
   # Callbacks
 
-  @callback is_authenticated(Plug.Conn.t) :: Boolean.t
-  @callback is_not_authenticated(Plug.Conn.t) :: Boolean.t
+  @callback is_authenticated(Plug.Conn.t()) :: Boolean.t()
+  @callback is_not_authenticated(Plug.Conn.t()) :: Boolean.t()
 
   defmacro __using__(_) do
     alias Skeleton.Phoenix.Controller, as: Ctrl
@@ -46,7 +46,10 @@ defmodule Skeleton.Phoenix.Controller do
       # Resolve
 
       def resolve(%{halted: true} = conn, _), do: conn
-      def resolve(conn, callback), do: callback.(conn)
+
+      def resolve(%{status: status} = conn, callback) when status in [nil, 200] do
+        callback.(conn)
+      end
     end
   end
 
