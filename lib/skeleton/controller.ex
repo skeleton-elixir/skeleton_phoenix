@@ -50,6 +50,8 @@ defmodule Skeleton.Phoenix.Controller do
       def resolve(%{status: status} = conn, callback) when status in [nil, 200] do
         callback.(conn)
       end
+
+      def resolve(conn, _), do: halt(conn)
     end
   end
 
