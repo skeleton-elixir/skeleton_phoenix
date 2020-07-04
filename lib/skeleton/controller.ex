@@ -54,7 +54,7 @@ defmodule Skeleton.Phoenix.Controller do
 
   def do_ensure_authenticated(conn) do
     if CtrlConfig.controller().is_authenticated(conn) do
-      success(conn)
+      conn
     else
       unauthorized(conn)
     end
@@ -66,7 +66,7 @@ defmodule Skeleton.Phoenix.Controller do
     if CtrlConfig.controller().is_authenticated(conn) do
       unauthorized(conn)
     else
-      success(conn)
+      conn
     end
   end
 
@@ -76,7 +76,7 @@ defmodule Skeleton.Phoenix.Controller do
     context = build_permission_context(conn, ctx_fun)
 
     if permission_module.check(permission_name, context) do
-      success(conn)
+      conn
     else
       unauthorized(conn)
     end
@@ -100,11 +100,5 @@ defmodule Skeleton.Phoenix.Controller do
 
   def unauthorized(conn) do
     conn |> put_status(:unauthorized) |> halt()
-  end
-
-  # Retorn success
-
-  def success(conn) do
-    put_status(conn, :ok)
   end
 end

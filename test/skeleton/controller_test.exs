@@ -26,7 +26,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.update()
 
       refute conn.halted
-      assert conn.status == 200
+      refute conn.status
     end
   end
 
@@ -34,7 +34,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
     test "when isn't authenticated", context do
       conn = UserController.unauthenticated_update(context.conn)
       refute conn.halted
-      assert conn.status == 200
+      refute conn.status
     end
 
     test "when is authenticated", context do
@@ -61,7 +61,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.update()
 
       refute conn.halted
-      assert conn.status == 200
+      refute conn.status
     end
 
     test "when isn't permitted", context do
@@ -99,7 +99,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.update()
 
       refute conn.halted
-      assert conn.status == 200
+      refute conn.status
       assert conn.params["name"] == "my name"
       assert conn.params["email"] == "email@email.com"
       assert conn.params["admin"]
@@ -115,7 +115,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.update()
 
       refute conn.halted
-      assert conn.status == 200
+      refute conn.status
       assert conn.params["name"] == "my name"
       assert conn.params["email"] == "email@email.com"
       refute conn.params["admin"]
@@ -133,7 +133,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.update()
 
       refute conn.halted
-      assert conn.status == 200
+      refute conn.status
     end
 
     test "when it's not valid", context do
