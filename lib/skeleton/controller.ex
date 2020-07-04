@@ -46,7 +46,7 @@ defmodule Skeleton.Phoenix.Controller do
       # Resolve
 
       def resolve(%{halted: true} = conn, _), do: conn
-      def resolve(conn, callback), do: callback.(put_status(conn, :ok))
+      def resolve(conn, callback), do: callback.(conn)
     end
   end
 
