@@ -5,8 +5,9 @@ defmodule Skeleton.Phoenix.Controller do
 
   # Callbacks
 
-  @callback is_authenticated(Plug.Conn.t) :: Boolean.t
-  @callback is_not_authenticated(Plug.Conn.t) :: Boolean.t
+  @callback is_authenticated(Plug.Conn.t()) :: Boolean.t()
+  @callback is_not_authenticated(Plug.Conn.t()) :: Boolean.t()
+  @callback fallback(Plug.Conn.t()) :: Plug.Conn.t()
 
   defmacro __using__(_) do
     alias Skeleton.Phoenix.Controller, as: Ctrl
@@ -24,12 +25,13 @@ defmodule Skeleton.Phoenix.Controller do
 
       # Check permission
 
-      def check_permission(conn, permission_module, permission_name, _)
       def check_permission(%{halted: true} = conn, _, _, _), do: conn
 
       def check_permission(conn, permission_module, permission_name, ctx_fun) do
         Ctrl.do_check_permission(conn, permission_module, permission_name, ctx_fun)
       end
+
+      def check_permission(%{halted: true} = conn, _, _), do: conn
 
       def check_permission(conn, permission_module, permission_name) do
         Ctrl.do_check_permission(conn, permission_module, permission_name, fn _, ctx -> ctx end)
@@ -45,7 +47,7 @@ defmodule Skeleton.Phoenix.Controller do
 
       # Resolve
 
-      def resolve(%{halted: true} = conn, _), do: conn
+      def resolve(%{halted: true} = conn, _), do: CtrlConfig.controller().fallback(conn)
       def resolve(conn, callback), do: callback.(conn)
     end
   end
@@ -64,7 +66,7 @@ defmodule Skeleton.Phoenix.Controller do
 
   def do_ensure_not_authenticated(conn) do
     if CtrlConfig.controller().is_authenticated(conn) do
-      unauthorized(conn)
+      forbidden(conn)
     else
       conn
     end
@@ -78,7 +80,7 @@ defmodule Skeleton.Phoenix.Controller do
     if permission_module.check(permission_name, context) do
       conn
     else
-      unauthorized(conn)
+      forbidden(conn)
     end
   end
 
@@ -100,5 +102,9 @@ defmodule Skeleton.Phoenix.Controller do
 
   def unauthorized(conn) do
     conn |> put_status(:unauthorized) |> halt()
+  end
+
+  def forbidden(conn) do
+    conn |> put_status(:forbidden) |> halt()
   end
 end

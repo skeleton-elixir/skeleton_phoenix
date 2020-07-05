@@ -47,7 +47,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.unauthenticated_update()
 
       assert conn.halted
-      assert conn.status == 401
+      assert conn.status == 403
     end
   end
 
@@ -75,7 +75,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
         |> UserController.update()
 
       assert conn.halted
-      assert conn.status == 401
+      assert conn.status == 403
     end
   end
 
