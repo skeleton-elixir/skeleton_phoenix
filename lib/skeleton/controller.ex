@@ -1,7 +1,7 @@
 defmodule Skeleton.Phoenix.Controller do
   import Plug.Conn
   alias Skeleton.Phoenix.Config, as: CtrlConfig
-  alias Skeleton.Permission.Config, as: PermConfig
+  alias Skeleton.Permission.Config, as: Config
 
   # Callbacks
 
@@ -10,31 +10,33 @@ defmodule Skeleton.Phoenix.Controller do
   @callback fallback(Plug.Conn.t()) :: Plug.Conn.t()
 
   defmacro __using__(_) do
-    alias Skeleton.Phoenix.Controller, as: Ctrl
+    alias Skeleton.Phoenix.Controller
 
     quote do
       # Ensure authenticated
 
       def ensure_authenticated(%{halted: true} = conn), do: conn
-      def ensure_authenticated(conn), do: Ctrl.do_ensure_authenticated(conn)
+      def ensure_authenticated(conn), do: Controller.do_ensure_authenticated(conn)
 
       # Ensure not authenticated
 
       def ensure_not_authenticated(%{halted: true} = conn), do: conn
-      def ensure_not_authenticated(conn), do: Ctrl.do_ensure_not_authenticated(conn)
+      def ensure_not_authenticated(conn), do: Controller.do_ensure_not_authenticated(conn)
 
       # Check permission
 
       def check_permission(%{halted: true} = conn, _, _, _), do: conn
 
       def check_permission(conn, permission_module, permission_name, ctx_fun) do
-        Ctrl.do_check_permission(conn, permission_module, permission_name, ctx_fun)
+        Controller.do_check_permission(conn, permission_module, permission_name, ctx_fun)
       end
 
       def check_permission(%{halted: true} = conn, _, _), do: conn
 
       def check_permission(conn, permission_module, permission_name) do
-        Ctrl.do_check_permission(conn, permission_module, permission_name, fn _, ctx -> ctx end)
+        Controller.do_check_permission(conn, permission_module, permission_name, fn _, ctx ->
+          ctx
+        end)
       end
 
       # Permit params
@@ -42,7 +44,7 @@ defmodule Skeleton.Phoenix.Controller do
       def permit_params(%{halted: true} = conn, _, _), do: conn
 
       def permit_params(conn, permission_module, permission_name) do
-        Ctrl.do_permit_params(conn, permission_module, permission_name)
+        Controller.do_permit_params(conn, permission_module, permission_name)
       end
 
       # Resolve
@@ -75,7 +77,7 @@ defmodule Skeleton.Phoenix.Controller do
   # Do check permission
 
   def do_check_permission(conn, permission_module, permission_name, ctx_fun) do
-    context = build_permission_context(conn, ctx_fun)
+    context = build_permission_context(conn, permission_module, ctx_fun)
 
     if permission_module.check(permission_name, context) do
       conn
@@ -87,15 +89,18 @@ defmodule Skeleton.Phoenix.Controller do
   # Do permit params
 
   def do_permit_params(conn, permission_module, permission_name) do
-    context = build_permission_context(conn, fn _, ctx -> ctx end)
+    context = build_permission_context(conn, permission_module, fn _, ctx -> ctx end)
     permitted_params = permission_module.permit(permission_name, context)
     Map.put(conn, :params, permitted_params)
   end
 
   # Do build context
 
-  def build_permission_context(conn, ctx_fun) do
-    ctx_fun.(conn, PermConfig.permission().context(conn))
+  def build_permission_context(conn, permission_module, ctx_fun) do
+    default_context = Config.permission().context(conn)
+    permission_context = permission_module.context(conn, default_context)
+
+    ctx_fun.(conn, Map.merge(default_context, permission_context))
   end
 
   # Return unauthorized
