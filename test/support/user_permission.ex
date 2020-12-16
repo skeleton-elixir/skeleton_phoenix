@@ -13,7 +13,7 @@ defmodule Skeleton.App.UserPermission do
     end
   end
 
-  def preload(_context, _permissions, users) do
+  def preload_data(_context, _permissions, users) do
     users
   end
 end

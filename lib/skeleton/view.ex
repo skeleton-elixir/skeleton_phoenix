@@ -36,7 +36,7 @@ defmodule Skeleton.Phoenix.View do
 
   def preload_permissions(conn, items, permission_module, permission_names) do
     context = PermConfig.permission().context(conn)
-    permission_module.preload(context, permission_names, items)
+    permission_module.preload_data(context, permission_names, items)
   end
 
   # Check permission
