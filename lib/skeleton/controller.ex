@@ -60,7 +60,7 @@ defmodule Skeleton.Phoenix.Controller do
     if CtrlConfig.controller().is_authenticated(conn) do
       conn
     else
-      unauthorized(conn)
+      forbidden(conn)
     end
   end
 
@@ -77,12 +77,15 @@ defmodule Skeleton.Phoenix.Controller do
   # Do check permission
 
   def do_check_permission(conn, permission_module, permission_name, ctx_fun) do
-    context = build_permission_context(conn, permission_module, ctx_fun)
+    context =
+      conn
+      |> build_permission_context(permission_module, ctx_fun)
+      |> permission_module.preload_data([permission_name])
 
     if permission_module.check(permission_name, context) do
       conn
     else
-      forbidden(conn)
+      unauthorized(conn)
     end
   end
 

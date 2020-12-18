@@ -10,7 +10,6 @@ defmodule Skeleton.App.Permission do
   def context(%Plug.Conn{} = conn) do
     %{
       current_user: conn.private[:current_user],
-      resource: conn.assigns[:resource],
       source: conn.assigns[:source],
       params: conn.params
     }

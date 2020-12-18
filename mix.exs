@@ -39,7 +39,7 @@ defmodule SkeletonPhoenix.MixProject do
       {:plug_cowboy, "~> 2.2"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
-      {:skeleton_permission, github: "skeleton-elixir/skeleton_permission"},
+      {:skeleton_permission, github: "skeleton-elixir/skeleton_permission"}
     ]
   end
 

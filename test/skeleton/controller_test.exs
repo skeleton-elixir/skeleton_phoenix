@@ -13,7 +13,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
     test "when isn't authenticated", context do
       conn = UserController.update(context.conn)
       assert conn.halted
-      assert conn.status == 401
+      assert conn.status == 403
     end
 
     test "when is authenticated", context do
@@ -22,7 +22,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user)
-        |> assign(:resource, user)
+        |> assign(:user, user)
         |> UserController.update()
 
       refute conn.halted
@@ -43,7 +43,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user)
-        |> assign(:resource, user)
+        |> assign(:user, user)
         |> UserController.unauthenticated_update()
 
       assert conn.halted
@@ -57,7 +57,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user)
-        |> assign(:resource, user)
+        |> assign(:user, user)
         |> UserController.update()
 
       refute conn.halted
@@ -71,11 +71,11 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user1)
-        |> assign(:resource, user2)
+        |> assign(:user, user2)
         |> UserController.update()
 
       assert conn.halted
-      assert conn.status == 403
+      assert conn.status == 401
     end
   end
 
@@ -95,7 +95,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user1)
-        |> assign(:resource, user2)
+        |> assign(:user, user2)
         |> UserController.update()
 
       refute conn.halted
@@ -111,7 +111,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user)
-        |> assign(:resource, user)
+        |> assign(:user, user)
         |> UserController.update()
 
       refute conn.halted
@@ -129,7 +129,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
       conn =
         context.conn
         |> put_private(:current_user, user)
-        |> assign(:resource, user)
+        |> assign(:user, user)
         |> UserController.update()
 
       refute conn.halted
@@ -139,7 +139,7 @@ defmodule Skeleton.Phoenix.ControllerTest do
     test "when it's not valid", context do
       conn = UserController.update(context.conn)
       assert conn.halted
-      assert conn.status == 401
+      assert conn.status == 403
     end
   end
 end
