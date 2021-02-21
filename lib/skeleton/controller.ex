@@ -6,7 +6,6 @@ defmodule Skeleton.Phoenix.Controller do
   # Callbacks
 
   @callback is_authenticated(Plug.Conn.t()) :: Boolean.t()
-  @callback is_not_authenticated(Plug.Conn.t()) :: Boolean.t()
   @callback fallback(Plug.Conn.t()) :: Plug.Conn.t()
 
   defmacro __using__(_) do

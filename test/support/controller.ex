@@ -11,8 +11,6 @@ defmodule Skeleton.App.Controller do
 
   def is_authenticated(conn), do: conn.private[:current_user]
 
-  def is_not_authenticated(conn), do: !conn.private[:current_user]
-
   def fallback(conn) do
     conn
   end
