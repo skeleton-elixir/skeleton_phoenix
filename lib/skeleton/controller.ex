@@ -12,8 +12,6 @@ defmodule Skeleton.Phoenix.Controller do
     alias Skeleton.Phoenix.Controller
 
     quote do
-      import unquote(CtrlConfig.controller())
-
       # Ensure authenticated
 
       def ensure_authenticated(%{halted: true} = conn), do: conn
