@@ -2,27 +2,25 @@ defmodule SkeletonPhoenix.MixProject do
   use Mix.Project
 
   @version "1.0.0"
-  @url "https://github.com/skeleton-elixir/skeleton_phoenix"
+  @source_url "https://github.com/skeleton-elixir/skeleton_phoenix"
   @maintainers [
     "Diego Nogueira",
     "Jhonathas Matos"
   ]
-
 
   def project do
     [
       name: "SkeletonPhoenix",
       app: :skeleton_phoenix,
       version: @version,
-      elixir: "~> 1.10",
+      elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       package: package(),
-      source_url: @url,
+      source_url: @source_url,
+      description: description(),
       maintainers: @maintainers,
-      description: "Elixir structure",
       start_permanent: Mix.env() == :prod,
       deps: deps()
-
     ]
   end
 
@@ -36,11 +34,12 @@ defmodule SkeletonPhoenix.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug_cowboy, "~> 2.4"},
-      {:ecto_sql, "~> 3.5"},
-      {:postgrex, "~> 0.15"},
-      {:skeleton_permission, github: "skeleton-elixir/skeleton_permission"}
+      {:plug_cowboy, "~> 2.4"}
     ]
+  end
+
+  defp description() do
+    "O Skeleton Phoenix é um facilitador para criação de controles em sua aplicação, permitindo que você tenha os métodos enxutos e auto explicativos."
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
@@ -50,7 +49,7 @@ defmodule SkeletonPhoenix.MixProject do
     [
       maintainers: @maintainers,
       licenses: ["MIT"],
-      links: %{github: @url},
+      links: %{github: @source_url},
       files: ~w(lib) ++ ~w(CHANGELOG.md LICENSE mix.exs README.md)
     ]
   end

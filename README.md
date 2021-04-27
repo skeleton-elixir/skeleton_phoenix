@@ -1,21 +1,72 @@
-# SkeletonPhoenix
+# Sobre o Skeleton Phoenix
 
-**TODO: Add description**
+O Skeleton Phoenix é um facilitador para criação de controles em sua aplicação, permitindo que você tenha os métodos enxutos e auto explicativos.
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `skeleton_phoenix` to your list of dependencies in `mix.exs`:
+## Instalação
 
 ```elixir
+# mix.exs
+
 def deps do
   [
-    {:skeleton_phoenix, "~> 0.1.0"}
+    {:skeleton_phoenix, "~> 1.0.0"}
   ]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/skeleton_phoenix](https://hexdocs.pm/skeleton_phoenix).
+```elixir
+# config/config.exs
+config :skeleton_phoenix, controller: AppWeb.Controller
+```
 
+```elixir
+# lib/app_web/controller.ex
+
+defmodule App.Controller do
+  @behaviour Skeleton.Phoenix.Controller
+
+  defmacro __using__(_) do
+    quote do
+      use Skeleton.Phoenix.Controller
+    end
+  end
+
+  def is_authenticated(conn), do: conn.private[:current_user]
+end
+```
+
+```elixir
+# lib/app_web.ex
+
+def controller do
+  quote do
+    use Skeleton.Phoenix.Controller
+  end
+end
+```
+
+## Criando os controles
+
+```elixir
+# lib/app_web/controllers/user_controller.ex
+
+defmodule AppWeb.UserController do
+  use Skeleton.App.Controller
+
+  def new(conn) do
+    conn
+    |> ensure_not_authenticated()
+    |> resolve(fn conn ->
+      conn
+    end)
+  end
+
+  def update(conn) do
+    conn
+    |> ensure_authenticated()
+    |> resolve(fn conn ->
+      conn
+    end)
+  end
+end
+```
