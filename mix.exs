@@ -34,7 +34,8 @@ defmodule SkeletonPhoenix.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug_cowboy, "~> 2.4"}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:plug_cowboy, "~> 2.0"}
     ]
   end
 
@@ -49,8 +50,11 @@ defmodule SkeletonPhoenix.MixProject do
     [
       maintainers: @maintainers,
       licenses: ["MIT"],
-      links: %{github: @source_url},
-      files: ~w(lib) ++ ~w(CHANGELOG.md LICENSE mix.exs README.md)
+      files: ~w(lib CHANGELOG.md LICENSE mix.exs README.md),
+      links: %{
+        "GitHub" => @source_url,
+        "Changelog" => "#{@source_url}/blob/master/CHANGELOG.md"
+      }
     ]
   end
 end
