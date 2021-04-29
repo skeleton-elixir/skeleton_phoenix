@@ -1,9 +1,9 @@
-defmodule Skeleton.App.Controller do
+defmodule Skeleton.AppWeb.Controller do
   @behaviour Skeleton.Phoenix.Controller
 
   defmacro __using__(_) do
     quote do
-      use Skeleton.Phoenix.Controller
+      use Skeleton.Phoenix.Controller, controller: Skeleton.AppWeb.Controller
     end
   end
 

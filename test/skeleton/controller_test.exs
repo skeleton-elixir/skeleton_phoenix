@@ -1,8 +1,11 @@
 defmodule Skeleton.Phoenix.ControllerTest do
   use Skeleton.App.TestCase
+
   import Plug.Conn
+
   alias Plug.Conn
-  alias Skeleton.App.{User, UserController}
+  alias Skeleton.AppWeb.UserController
+  alias Skeleton.App.User
 
   setup context do
     conn = %Conn{}

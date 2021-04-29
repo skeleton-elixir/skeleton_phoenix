@@ -43,7 +43,7 @@ defmodule SkeletonPhoenix.MixProject do
     "O Skeleton Phoenix é um facilitador para criação de controles em sua aplicação, permitindo que você tenha os métodos enxutos e auto explicativos."
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/app", "test/app_web"]
   defp elixirc_paths(_), do: ["lib"]
 
   defp package do

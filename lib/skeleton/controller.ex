@@ -1,38 +1,30 @@
 defmodule Skeleton.Phoenix.Controller do
   import Plug.Conn
 
-  alias Skeleton.Phoenix.Config, as: Config
-
-  # Callbacks
-
   @callback is_authenticated(Plug.Conn.t()) :: Boolean.t()
   @callback fallback(Plug.Conn.t()) :: Plug.Conn.t()
 
-  defmacro __using__(_) do
+  defmacro __using__(opts) do
     alias Skeleton.Phoenix.Controller
 
     quote do
-      # Ensure authenticated
+      @controller unquote(opts[:controller]) || raise("Controller required")
 
       def ensure_authenticated(%{halted: true} = conn), do: conn
-      def ensure_authenticated(conn), do: Controller.do_ensure_authenticated(conn)
-
-      # Ensure not authenticated
+      def ensure_authenticated(conn), do: Controller.do_ensure_authenticated(@controller, conn)
 
       def ensure_not_authenticated(%{halted: true} = conn), do: conn
-      def ensure_not_authenticated(conn), do: Controller.do_ensure_not_authenticated(conn)
+      def ensure_not_authenticated(conn), do: Controller.do_ensure_not_authenticated(@controller, conn)
 
-      # Resolve
-
-      def resolve(%{halted: true} = conn, _), do: Config.controller().fallback(conn)
+      def resolve(%{halted: true} = conn, _), do: @controller.fallback(conn)
       def resolve(conn, callback), do: callback.(conn)
     end
   end
 
   # Do ensure authenticated
 
-  def do_ensure_authenticated(conn) do
-    if Config.controller().is_authenticated(conn) do
+  def do_ensure_authenticated(controller, conn) do
+    if controller.is_authenticated(conn) do
       conn
     else
       forbidden(conn)
@@ -41,8 +33,8 @@ defmodule Skeleton.Phoenix.Controller do
 
   # Do ensure not authenticated
 
-  def do_ensure_not_authenticated(conn) do
-    if Config.controller().is_authenticated(conn) do
+  def do_ensure_not_authenticated(controller, conn) do
+    if controller.is_authenticated(conn) do
       forbidden(conn)
     else
       conn

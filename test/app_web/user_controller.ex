@@ -1,5 +1,5 @@
-defmodule Skeleton.App.UserController do
-  use Skeleton.App.Controller
+defmodule Skeleton.AppWeb.UserController do
+  use Skeleton.AppWeb, :controller
 
   def update(conn) do
     conn

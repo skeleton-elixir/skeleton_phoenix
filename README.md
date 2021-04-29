@@ -15,11 +15,6 @@ end
 ```
 
 ```elixir
-# config/config.exs
-config :skeleton_phoenix, controller: AppWeb.Controller
-```
-
-```elixir
 # lib/app_web/controller.ex
 
 defmodule App.Controller do
@@ -27,11 +22,15 @@ defmodule App.Controller do
 
   defmacro __using__(_) do
     quote do
-      use Skeleton.Phoenix.Controller
+      use Skeleton.Phoenix.Controller, controller: App.AppWeb.Controller
     end
   end
 
   def is_authenticated(conn), do: conn.private[:current_user]
+
+  def fallback(conn) do
+    conn
+  end
 end
 ```
 
@@ -41,6 +40,7 @@ end
 def controller do
   quote do
     use Skeleton.Phoenix.Controller
+    # ...
   end
 end
 ```
