@@ -9,7 +9,7 @@ O Skeleton Phoenix é um facilitador para criação de controles em sua aplicaç
 
 def deps do
   [
-    {:skeleton_phoenix, "~> 1.0.0"}
+    {:skeleton_phoenix, "~> 2.0.0"}
   ]
 end
 ```
