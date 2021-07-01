@@ -35,7 +35,7 @@ defmodule Skeleton.Phoenix.Controller do
 
   def do_ensure_not_authenticated(controller, conn) do
     if controller.is_authenticated(conn) do
-      forbidden(conn)
+      unauthorized(conn)
     else
       conn
     end
